@@ -1,0 +1,26 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {
+            "config.xml": {
+                "parents": {
+                    "/*": [
+                        {
+                            "xml": "<feature name=\"CorHttpd\"><param name=\"ios-package\" value=\"CorHttpd\" /></feature>",
+                            "count": 1
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "installed_plugins": {
+        "com.rjfun.cordova.httpd": {
+            "PACKAGE_NAME": "com.rjfun.testhttpd"
+        }
+    },
+    "dependent_plugins": {}
+}
