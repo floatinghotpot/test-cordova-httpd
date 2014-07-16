@@ -14,12 +14,26 @@
                         }
                     ]
                 }
+            },
+            "AndroidManifest.xml": {
+                "parents": {
+                    "/*": [
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.INTERNET\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
+                            "count": 1
+                        }
+                    ]
+                }
             }
         }
     },
     "installed_plugins": {
         "com.rjfun.cordova.httpd": {
-            "PACKAGE_NAME": "com.rjfun.testhttpd"
+            "PACKAGE_NAME": "com.rjfun.testhttpd2"
         }
     },
     "dependent_plugins": {}
