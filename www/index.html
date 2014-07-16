@@ -36,18 +36,30 @@
     	document.addEventListener("deviceready", onDeviceReady, false);
     }
     function startServer() {
+    	var info = document.getElementById('info');
     	if ( cordova && cordova.plugins && cordova.plugins.CorHttpd ) {
     	    var httpd = cordova.plugins.CorHttpd;
-    	    httpd.startServer({
-    	    	'www_root' : '',
-    	    	'port' : 8080
-    	    }, function(){
-    	    	var info = document.getElementById('info');
-    	    	info.innerHTML = 'server started';
-    	    }, function(){
-    	    	var info = document.getElementById('info');
-    	    	info.innerHTML = 'failed to start server';
-    	    });
+    	    httpd.getURL(function(url){
+    	    	if(url.length > 0) {
+	    	    	info.innerHTML = "server already started: <a href='" + url + "' target='_blank'>" + url + "</a>";
+	            	httpd.getLocalPath(function(path){
+	            		info.innerHTML = info.innerHTML + "<br/>localPath:" + path;
+	            	});
+	    	    } else {
+    	    	    httpd.startServer({
+    	    	    	'www_root' : '/',
+    	    	    	'port' : 8080
+    	    	    }, function( url ){
+    	    	    	info.innerHTML = "server started: <a href='" + url + "' target='_blank'>" + url + "</a>";
+    	            	httpd.getLocalPath(function(path){
+    	            		info.innerHTML = info.innerHTML + "<br/>localPath:" + path;
+    	            	});
+    	    	    }, function( error ){
+    	    	    	info.innerHTML = 'failed to start server: ' + error;
+    	    	    });
+    	    	}
+    	    	
+    	    },function(){});
     	} else {
     		alert('CorHttpd plugin not available/ready.');
     	}
@@ -55,23 +67,23 @@
     function stopServer() {
     	if ( cordova && cordova.plugins && cordova.plugins.CorHttpd ) {
     	    var httpd = cordova.plugins.CorHttpd;
-    	    httpd.stopServer({},function(){
+    	    httpd.stopServer(function(){
     	    	var info = document.getElementById('info');
     	    	info.innerHTML = 'server stopped.';
-    	    },function(){
+    	    },function( error ){
     	    	var info = document.getElementById('info');
-    	    	info.innerHTML = 'failed to stop server';
+    	    	info.innerHTML = 'failed to stop server' + error;
     	    });
     	}
     }
     function onDeviceReady() {
-    	// startServer();
+    	startServer();
     }
     </script>
     <div id="fullpage">
     <p>Demo for CorHttpd Plugin</p>
-    <p><button onclick="startServer();">Start Server</button></p>
-    <p><button onclick="stopServer();">Stop Server</button></p>
+    <p><button onclick="startServer();">Start CorHttpd</button></p>
+    <p><button onclick="stopServer();">Stop CorHttpd</button></p>
     <div id='info'></div>
 
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
